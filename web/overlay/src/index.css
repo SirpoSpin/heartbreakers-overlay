@@ -1,0 +1,410 @@
+html,
+body,
+#root {
+  background: transparent !important;
+}
+
+.heart.alive {
+  animation: jiggle 0.25s ease;
+  filter: "brightness(0) invert(1)"
+}
+
+@keyframes jiggle {
+  0% {
+    transform: scale(1);
+  }
+
+  25% {
+    transform: scale(1.2);
+  }
+
+  50% {
+    transform: scale(0.9);
+  }
+
+  75% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+
+.heart.dead {
+  transform: scale(0.75);
+  /* slightly smaller */
+  filter: brightness(0);
+  /* turns it black */
+  opacity: 1;
+  /* stays visible */
+  transition: transform 0.25s ease, filter 0.25s ease;
+}
+
+/* ============================
+   OVERLAY FADE-IN
+   ============================ */
+.overlay-root {
+  opacity: 0;
+}
+
+.overlay-fade-in {
+  animation: overlayFadeIn 0.8s ease-out forwards;
+}
+
+@keyframes overlayFadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+
+/* ============================
+   MAIN OVERLAY LAYOUT
+   ============================ */
+.overlay-container {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  font-family: Arial, sans-serif;
+  color: white;
+  padding-top: 10px;
+}
+
+
+
+/* ============================
+   PLAYER CARD ANIMATIONS
+   ============================ */
+.player-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  opacity: 0;
+}
+
+/* Left player slides in from left */
+.slide-in-left {
+  animation: slideInLeft 0.6s ease-out forwards;
+}
+
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(-20px);
+    opacity: 1;
+  }
+}
+
+/* Right player slides in from right */
+.slide-in-right {
+  animation: slideInRight 0.6s ease-out forwards;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(40px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateX(20px);
+    opacity: 1;
+  }
+}
+
+
+/* ============================
+   LOGO ANIMATION
+   ============================ */
+.logo-container {
+  opacity: 1;
+  position: fixed;
+  top: 10px;
+  width: 100%;
+  height: 70px;
+  display: flex;
+  z-index: 9999;  
+  justify-content: center; 
+}
+
+.left-logo {
+  position: fixed;
+  display: flex;
+  width: 100%;  
+  justify-content: left; 
+  left: 23%
+}
+
+.right-logo {
+  position: fixed;
+  display: flex;
+  width: 100%;    
+  justify-content: right; 
+  right: 23%;
+}
+
+.fade-up {
+  animation: fadeUp 0.6s ease-out forwards;
+}
+
+@keyframes fadeUp {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+
+/* ============================
+   NAME ROW (optional styling)
+   ============================ */
+.name-row {
+  display: flex;
+  gap: 0px;
+}
+
+
+/* ============================
+   OPTIONAL: SCORE PULSE
+   (use if you want score bumps)
+   ============================ */
+.score-pulse {
+  animation: scorePulse 0.3s ease-out;
+}
+
+@keyframes scorePulse {
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.15);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.heart-wrapper {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+}
+
+.hearts-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.heart-pop {
+  opacity: 0;
+  transform: translateY(-25px) scale(0.2);
+  /* start above, slightly small */
+  animation: heartDropIn 0.75s cubic-bezier(0.25, 2, 0.4, 1) forwards;
+}
+
+@keyframes heartDropIn {
+  0% {
+    opacity: 0;
+    transform: translateY(-25px) scale(0.9);
+  }
+
+  40% {
+    opacity: 1;
+    transform: translateY(0px) scale(1.15);
+    /* impact hit */
+  }
+
+  65% {
+    transform: translateY(-6px) scale(1.05);
+    /* bounce up */
+  }
+
+  85% {
+    transform: translateY(0px) scale(1.12);
+    /* second micro-hit */
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0px) scale(1);
+    /* settle */
+  }
+}
+
+.score-beat {
+  animation: scoreBeat 0.3s ease-out forwards;
+}
+
+@keyframes scoreBeat {
+  0% {
+    transform: translateY(-50%) scale(1);
+  }
+
+  40% {
+    transform: translateY(-50%) scale(1.35);
+  }
+
+  70% {
+    transform: translateY(-50%) scale(0.9);
+  }
+
+  100% {
+    transform: translateY(-50%) scale(1);
+  }
+}
+
+.scrolling-bg {
+  position: relative;
+  overflow: hidden;
+}
+
+.scrolling-bg>* {
+  position: relative;
+  z-index: 2;
+}
+
+
+.scrolling-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("noise.jpg");
+  background-repeat: repeat;
+  background-size: 300px 300px;
+  /* or whatever looks good */
+  opacity: 0.12;
+  /* barely visible */
+  animation: scrollBG 18s linear infinite;
+  pointer-events: none;
+  filter: blur(0.5px);
+  z-index: 0;
+}
+
+@keyframes scrollBG {
+  0% {
+    background-position: 0% 0%;
+  }
+
+  100% {
+    background-position: 300px 300px;
+  }
+}
+
+/* ============================
+   LOGO BOX BASE STYLE
+   ============================ */
+.logo-box {
+  width: 70px;
+  height: 70px;
+  border: 2px solid rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  /* soft ambient glow */
+  box-shadow:
+    0 0 6px rgba(255, 255, 255, 0.15),
+    0 0 12px rgba(80, 160, 255, 0.25);
+}
+
+/* ============================
+   BLUE GRADIENT BACKGROUND
+   ============================ */
+.blue-gradient {
+  background: linear-gradient(135deg,
+      rgba(60, 140, 255, 0.35) 80%,
+      rgba(20, 60, 140, 0.35) 100%);
+}
+
+/* ============================
+   LOGO IMAGE
+   ============================ */
+.logo-img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+.logo-spacer {
+  width: 70px;   /* same width as your logo box */
+  height: 70px;  /* same height as your logo box */
+}
+
+.bracket-label {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: white;
+  position: relative;
+  z-index: 20;
+  margin-top: 100px;
+  font-family: Arial, sans-serif;
+
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.4),
+    0 0 8px rgba(80, 160, 255, 0.3);
+}
+
+.bracket-label-wrapper {
+  margin-top: 90px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: Arial, sans-serif;
+}
+
+/* The rounded black box behind the text */
+.bracket-label-box {
+  background: rgba(60, 140, 255, 0.25);
+  padding: 3px 18px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /* subtle glow to match your overlay */
+  box-shadow:
+    0 0 6px rgba(255, 255, 255, 0.15),
+    0 0 12px rgba(80, 160, 255, 0.25);
+}
+
+/* Text styling that matches AngledText */
+.bracket-label-text {
+  font-size: 12px;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: black;
+
+  -webkit-text-stroke: 2px white;
+  paint-order: stroke fill;
+  filter: drop-shadow(2px 2px 0px blacke);
+}
+
+.overlay-wrapper {
+  position: relative;
+  z-index: 10;
+  /* higher than overlay-container */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}

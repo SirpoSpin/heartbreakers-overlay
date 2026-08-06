@@ -1,0 +1,17 @@
+{
+  "scripts": {
+    "dev": "concurrently \"npm:dev:go\" \"npm:dev:control\" \"npm:dev:overlay\"",
+    "dev:go": "go run main.go",
+    "dev:control": "cd web/control-panel && npm run dev",
+    "dev:overlay": "cd web/overlay && npm run dev",
+    "build": "npm run build:control && npm run build:overlay",
+    "build:control": "cd web/control-panel && npm run build",
+    "build:overlay": "cd web/overlay && npm run build"
+  },
+  "devDependencies": {
+    "concurrently": "^9.2.1"
+  },
+  "dependencies": {
+    "react-router-dom": "^7.15.1"
+  }
+}
