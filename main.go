@@ -59,24 +59,23 @@ func main() {
 }
 
 func overlayHandler(w http.ResponseWriter, r *http.Request) {
-	// Path inside /overlay/
-	path := r.URL.Path[len("/overlay/"):]
-	if path == "" {
-		path = "index.html"
-	}
-
+	// Directory containing the built overlay
 	fs := http.Dir("./web/overlay/dist")
-	file, err := fs.Open(path)
+	fileServer := http.FileServer(fs)
 
-	if err != nil {
-		// File does not exist → serve index.html for React Router
-		http.ServeFile(w, r, "./web/overlay/dist/index.html")
-		return
+	// Extract the path inside /overlay/
+	path := r.URL.Path[len("/overlay/"):]
+
+	// If the requested file exists, serve it normally
+	if path != "" {
+		if _, err := fs.Open(path); err == nil {
+			http.StripPrefix("/overlay/", fileServer).ServeHTTP(w, r)
+			return
+		}
 	}
-	defer file.Close()
 
-	stat, _ := file.Stat()
-	http.ServeContent(w, r, path, stat.ModTime(), file)
+	// Otherwise, serve React Router fallback
+	http.ServeFile(w, r, "./web/overlay/dist/index.html")
 }
 
 func handleWebSocket(w http.ResponseWriter, r *http.Request) {

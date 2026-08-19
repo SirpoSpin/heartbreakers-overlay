@@ -55,6 +55,7 @@ export default function SetListFetcher({ onSelectSet }: { onSelectSet: (set: any
                       nodes {
                         id
                         fullRoundText
+                        winnerId
                         stream {
                           streamName
                           streamSource
@@ -103,14 +104,20 @@ export default function SetListFetcher({ onSelectSet }: { onSelectSet: (set: any
           });
         });
       });
-
       const filtered = allSets.filter((s) => {
+        // Must be incomplete
+        const incomplete = !s.winnerId;
+
+        // Must match stream
         if (!s.stream) return false;
         const name = s.stream.streamName?.toLowerCase() || "";
         const source = s.stream.streamSource?.toLowerCase() || "";
         const target = streamUrl.toLowerCase();
-        return name.includes(target) || source.includes(target);
+        const matchesStream = name.includes(target) || source.includes(target);
+
+        return incomplete && matchesStream;
       });
+
 
       setSets(filtered);
     } catch (err) {

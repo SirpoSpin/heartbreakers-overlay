@@ -4,9 +4,9 @@ import Bracket from "./pages/Bracket";
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter >
       <Routes>
-        <Route path="/" element={<OverlayMain />} />
+        <Route path="/overlay" element={<OverlayMain />} />
         <Route path="/bracket" element={<Bracket />} />
       </Routes>
     </BrowserRouter>
