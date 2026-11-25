@@ -79,7 +79,7 @@ export default function SetListFetcher({ onSelectSet }: { onSelectSet: (set: any
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: "Bearer a819ec45c640e70c235ec04af813b2a7"
+          Authorization: "{token}"
         },
         body: JSON.stringify({
           query,
